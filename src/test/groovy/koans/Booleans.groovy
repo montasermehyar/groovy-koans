@@ -3,8 +3,9 @@ package koans
 import org.junit.Test
 
 class Booleans {
+
     @Test
-    public void "Comparing booleans"() {
+    void "Comparing booleans"() {
         boolean predicate = true
         // ------------ START EDITING HERE ----------------------
 
@@ -13,7 +14,7 @@ class Booleans {
     }
 
     @Test
-    public void "Collections as booleans"() {
+    void "Collections as booleans"() {
 
         List list = []
         // ------------ START EDITING HERE ----------------------
@@ -24,7 +25,7 @@ class Booleans {
     }
 
     @Test
-    public void "String truth"() {
+    void "String truth"() {
 
         String s1
         String s2 = ''
@@ -37,7 +38,7 @@ class Booleans {
     }
 
     @Test
-    public void "Numerical truth"() {
+    void "Numerical truth"() {
 
         int one = 1
         int negative = -1
@@ -52,7 +53,7 @@ class Booleans {
     }
 
     @Test
-    public void "truth"() {
+    void "truth"() {
 
         List truthy
         List falsy
@@ -71,6 +72,5 @@ class Booleans {
             assert !it, "$it is not falsy"
         }
     }
-
 
 }
