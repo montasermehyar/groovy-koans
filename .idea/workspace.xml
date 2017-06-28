@@ -1,174 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ef9cc816-09cd-4948-86b2-7a0e320a733a" name="Default" comment="adding maps methods">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/spring/readinglist/ReadingList.jar" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/spring/readinglist/ReadingList.jar.original" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/checker/checker.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/closures/anonymous.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/closures/arguments.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/closures/asinterface.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/closures/available.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/closures/convertmethod.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/closures/curry.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/closures/delegate.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/closures/docall.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/closures/parameters.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/closures/passtomethod.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/addmap.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/arrays.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/collect.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/combinations.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/complexkeys.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/count.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/find.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/grep.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/group.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/headtail.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/immutable.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/inject.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/intersect.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/join.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/listasstring.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/listtomap.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/loops.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/mapasinterface.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/mapdefaultvalues.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/orderby.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/permutations.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/ranges.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/reverse.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/sortmap.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/split.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/submap.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/subscript.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/subsequences.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/subtractmap.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/sum.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/collections/transpose.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/datetime/cleartime.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/datetime/common.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/datetime/converttimestamp.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/datetime/setvalues.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/datetime/subscript.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/datetime/timecategory.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/datetime/updates.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/files/filenamefinder.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/files/filetypes.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/files/operators.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/files/rename.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/files/traversing.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/files/withwriter.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/metaclass/addmethods.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/metaclass/getproperty.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/metaclass/metadsl.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/metaclass/methodarguments.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/metaclass/override.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/metaclass/staticmethod.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/numbers/absolute.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/numbers/integerdivision.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/numbers/power.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/numbers/round.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/regexp/matcher.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/regexp/pattern.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/spring/readinglist/.idea/libraries/R_User_Library.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/spring/readinglist/.idea/misc.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/spring/readinglist/.idea/modules.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/spring/readinglist/.idea/readinglist.iml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/spring/readinglist/.idea/sqldialects.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/spring/readinglist/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/spring/readinglist/Book.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/spring/readinglist/Grabs.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/spring/readinglist/JdbcReadingListRepository.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/spring/readinglist/ReadingListController.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/spring/readinglist/ReadingListControllerTest.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/spring/readinglist/ReadingListRepository.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/spring/readinglist/schema.sql" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/spring/readinglist/static/style.css" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/spring/readinglist/templates/readingList.html" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/base64.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/capitalize.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/character.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/continuation.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/convertboolean.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/expand.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/gstring.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/isnumber.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/lines.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/multiply.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/normalize.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/padding.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/process.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/remove.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/replaceall.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/split.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/sprintf.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/stringtypes.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/stripleadingspaces.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/stripmargin.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/subscript.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/tokenize.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/translation.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/strings/url.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/antbuilder.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/askeyword.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/astype.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/classhierarchy.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/classinfo.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/configslurper.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/constructor.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/defaultargument.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/defaultimports.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/delegate.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/dynamicmethods.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/elvis.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/equality.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/exception.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/expando.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/gpath.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/grab.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/grabresolver.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/grape.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/groovybeans.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/immutable.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/importalias.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/indexedproperty.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/inheritconstructor.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/inoperator.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/inspect.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/keywordmethodname.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/lazy.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/multipleassignment.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/namedparameters.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/newify.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/newinstance.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/optionalreturn.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/paramdefault.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/parenthesis.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/powerassert.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/returnvaluecasting.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/safenavigation.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/semicolons.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/shutdownhook.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/singleton.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/spaceship.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/spreaddotoperator.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/spreadoperator.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/switchoperator.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/synchronizedannotation.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/templateengine.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/truth.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/syntax/with.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/xml/markupbuilder.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/xml/streamingmarkupbuilder.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/xml/typeconversion.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/xml/xmlparser.groovy" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/examples/xml/xmlslurper.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules/groovy-koans.iml" afterPath="$PROJECT_DIR$/.idea/modules/groovy-koans.iml" />
+    <list default="true" id="ef9cc816-09cd-4948-86b2-7a0e320a733a" name="Default" comment="adding examples and some new test">
+      <change type="MOVED" beforePath="$PROJECT_DIR$/examples/spring/readinglist/.idea/libraries/R_User_Library.xml" afterPath="$PROJECT_DIR$/real-apps/spring/readinglist/.idea/libraries/R_User_Library.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/examples/spring/readinglist/.idea/misc.xml" afterPath="$PROJECT_DIR$/real-apps/spring/readinglist/.idea/misc.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/examples/spring/readinglist/.idea/modules.xml" afterPath="$PROJECT_DIR$/real-apps/spring/readinglist/.idea/modules.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/examples/spring/readinglist/.idea/readinglist.iml" afterPath="$PROJECT_DIR$/real-apps/spring/readinglist/.idea/readinglist.iml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/examples/spring/readinglist/.idea/sqldialects.xml" afterPath="$PROJECT_DIR$/real-apps/spring/readinglist/.idea/sqldialects.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/examples/spring/readinglist/.idea/workspace.xml" afterPath="$PROJECT_DIR$/real-apps/spring/readinglist/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/examples/spring/readinglist/Book.groovy" afterPath="$PROJECT_DIR$/real-apps/spring/readinglist/Book.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/examples/spring/readinglist/Grabs.groovy" afterPath="$PROJECT_DIR$/real-apps/spring/readinglist/Grabs.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/examples/spring/readinglist/JdbcReadingListRepository.groovy" afterPath="$PROJECT_DIR$/real-apps/spring/readinglist/JdbcReadingListRepository.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/examples/spring/readinglist/ReadingList.jar" afterPath="$PROJECT_DIR$/real-apps/spring/readinglist/ReadingList.jar" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/examples/spring/readinglist/ReadingList.jar.original" afterPath="$PROJECT_DIR$/real-apps/spring/readinglist/ReadingList.jar.original" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/examples/spring/readinglist/ReadingListController.groovy" afterPath="$PROJECT_DIR$/real-apps/spring/readinglist/ReadingListController.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/examples/spring/readinglist/ReadingListControllerTest.groovy" afterPath="$PROJECT_DIR$/real-apps/spring/readinglist/ReadingListControllerTest.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/examples/spring/readinglist/ReadingListRepository.groovy" afterPath="$PROJECT_DIR$/real-apps/spring/readinglist/ReadingListRepository.groovy" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/examples/spring/readinglist/schema.sql" afterPath="$PROJECT_DIR$/real-apps/spring/readinglist/schema.sql" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/examples/spring/readinglist/static/style.css" afterPath="$PROJECT_DIR$/real-apps/spring/readinglist/static/style.css" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/examples/spring/readinglist/templates/readingList.html" afterPath="$PROJECT_DIR$/real-apps/spring/readinglist/templates/readingList.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/iv_collective_datatype/collective_datatypes.asciidoc" afterPath="$PROJECT_DIR$/doc/iv_collective_datatype/collective_datatypes.asciidoc" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/groovy/koans/Java.groovy" afterPath="$PROJECT_DIR$/src/test/groovy/koans/Java.groovy" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/groovy/koans/ListMethods.groovy" afterPath="$PROJECT_DIR$/src/test/groovy/koans/ListMethods.groovy" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -272,15 +123,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="README.adoc" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/README.adoc">
-          <provider selected="true" editor-type-id="split-provider[text-editor;AsciiDocPreviewEditor]">
-            <state split_layout="SPLIT">
-              <first_editor relative-caret-position="0">
-                <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-                <folding />
-              </first_editor>
-              <second_editor />
+      <file leaf-file-name="checker.groovy" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/checker/checker.groovy">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -885,10 +733,8 @@
       <recent name="ii_basics" />
       <recent name="i_introduction" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/examples" />
-      <recent name="$PROJECT_DIR$/tmp" />
-      <recent name="$PROJECT_DIR$" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="z_util" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/test/groovy/assignements" />
@@ -902,8 +748,11 @@
       <recent name="spock.lang.Specification" />
       <recent name="" />
     </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="z_util" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/real-apps" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/examples" />
+      <recent name="$PROJECT_DIR$/tmp" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -1753,7 +1602,7 @@
       <workItem from="1497873033604" duration="2870000" />
       <workItem from="1497951076405" duration="37000" />
       <workItem from="1497951151625" duration="14000" />
-      <workItem from="1498648605521" duration="298000" />
+      <workItem from="1498648605521" duration="836000" />
     </task>
     <task id="LOCAL-00001" summary="finishing the first part documentation">
       <created>1497476255971</created>
@@ -1825,7 +1674,14 @@
       <option name="project" value="LOCAL" />
       <updated>1497699738277</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="adding examples and some new test">
+      <created>1498649010706</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1498649010706</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -1861,7 +1717,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="136695000" />
+    <option name="totallyTimeSpent" value="137233000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1962,7 +1818,8 @@
     <MESSAGE value="adding ranges" />
     <MESSAGE value="adding lists methods" />
     <MESSAGE value="adding maps methods" />
-    <option name="LAST_COMMIT_MESSAGE" value="adding maps methods" />
+    <MESSAGE value="adding examples and some new test" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding examples and some new test" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -1996,36 +1853,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/test/groovy/goodness/files/operators.groovy" />
-    <entry file="file://$PROJECT_DIR$/src/test/groovy/goodness/files/filetypes.groovy" />
-    <entry file="file://$PROJECT_DIR$/examples/xml/xmlparser.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/strings/base64.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="162">
-          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/groovy/koans/RegularExpressions.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="7" column="16" lean-forward="false" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/groovy/koans/Numbers.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="64" column="0" lean-forward="true" selection-start-line="64" selection-start-column="0" selection-end-line="64" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/groovy/koans/Methods.groovy">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="468">
@@ -2121,13 +1948,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/checker/checker.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -2262,15 +2082,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/examples/spring/readinglist/Book.groovy">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/examples/spring/readinglist/schema.sql">
+    <entry file="file://$PROJECT_DIR$/real-apps/spring/readinglist/schema.sql">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -2283,11 +2095,93 @@
     <entry file="file://$PROJECT_DIR$/README.adoc">
       <provider selected="true" editor-type-id="split-provider[text-editor;AsciiDocPreviewEditor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="0">
-            <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <first_editor relative-caret-position="414">
+            <caret line="23" column="4" lean-forward="true" selection-start-line="23" selection-start-column="4" selection-end-line="23" selection-end-column="4" />
             <folding />
           </first_editor>
           <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/real-apps/spring/readinglist/static/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1498648847941" expanded="true" signature="5:84" ph="{...}" />
+            <marker date="1498648847941" expanded="true" signature="99:146" ph="{...}" />
+            <marker date="1498648847941" expanded="true" signature="164:188" ph="{...}" />
+            <marker date="1498648847941" expanded="true" signature="195:221" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/real-apps/spring/readinglist/ReadingListRepository.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/real-apps/spring/readinglist/ReadingListControllerTest.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1498648847573" expanded="true" signature="7:328" ph="..." />
+            <marker date="1498648847573" expanded="true" signature="423:1197" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/real-apps/spring/readinglist/ReadingListController.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="36">
+          <caret line="2" column="6" lean-forward="false" selection-start-line="2" selection-start-column="6" selection-end-line="2" selection-end-column="6" />
+          <folding>
+            <marker date="1498648847573" expanded="true" signature="235:446" ph="{...}" />
+            <marker date="1498648847573" expanded="true" signature="354:368" ph="{" />
+            <marker date="1498648847573" expanded="true" signature="354:418" ph="{...}" />
+            <marker date="1498648847573" expanded="true" signature="408:418" ph="}" />
+            <marker date="1498648847573" expanded="true" signature="531:631" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/real-apps/spring/readinglist/JdbcReadingListRepository.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1498648847573" expanded="true" signature="172:707" ph="{...}" />
+            <marker date="1498648847573" expanded="true" signature="335:680" ph="{...}" />
+            <marker date="1498648847573" expanded="true" signature="748:1050" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/real-apps/spring/readinglist/Grabs.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/real-apps/spring/readinglist/Book.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/checker/checker.groovy">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
