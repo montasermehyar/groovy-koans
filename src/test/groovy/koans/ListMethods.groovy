@@ -343,12 +343,12 @@ class ListMethods {
         def result = list.inject(0) { clinks, guests ->
             clinks + guests
         }
-        assert result == 0 + 1 + 2 + 3 == list.sum()
+        assert result == 0 + 1 + 2 + 3 // list.sum()
 
         // ------------ START EDITING HERE ----------------------
 
         // ------------ STOP EDITING HERE  ----------------------
-        assert result == 1 * 1 * 2 * 3
+        assert result == 2 * 1 * 2 * 3
     }
 
     def quickSort(list) {

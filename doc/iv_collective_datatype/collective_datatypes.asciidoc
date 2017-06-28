@@ -3,4 +3,267 @@
 == Collective Groovy datatypes
 <<<
 
-===
+=== Working with ranges
+
+Think about how often you’ve written a loop like this
+[source,java]
+----
+for (int i=0; i<upperBound; i++){
+// do something with i
+}
+----
+
+Next, consider how often you’ve written a conditional like this:
+[source,java]
+----
+if (x >= 0 && x <= upperBound) {
+// do something with x
+}
+----
+====
+Ranges:: are specified using the double-dot range operator `( .. )` between the left and right bounds.
+====
+
+This operator has a low precedence, so you often need to enclose the declaration in parentheses. Ranges can also be declared using their respective constructors.
+
+The `..<` range operator specifies a half-exclusive range—that is, the value on the
+right isn’t part of the range:
+
+[source,groovy]
+----
+left..right
+(left..right)
+(left..<right)
+----
+
+Ranges usually have a lower left bound and a higher right bound. When this is
+switched it’s called a *_reverse_* range.
+
+[source,groovy]
+----
+assert (0..10).contains(0)
+assert (0..<10).contains(9)
+
+def a = 0..10
+assert a instanceof Range
+assert a.contains(5)
+
+a = new IntRange(0,10)
+assert a.contains(5)
+
+assert (0.0..1.0).contains(1.0)
+assert (0.0..1.0).containsWithinBounds(0.5)
+
+def today = new Date()
+def yesterday = today - 1
+assert (yesterday..today).size() == 2
+
+assert ('a'..'c').contains('b')
+----
+
+TIP: You can walk through a range with the each method
+
+==== Ranges are objects
+
+Because every range is an object, you can pass a range around and call its methods.
+The most prominent methods are `each` , which executes a specified closure for each
+element in the range, and `contains` , which specifies whether or not a value is within
+a range.
+
+[source,groovy]
+.Ranges are objects
+----
+def result = ''
+(5..9).each { element ->
+        result += element
+}
+assert result == '56789'
+
+assert 5 in 0..10
+assert (0..10).isCase(5)
+
+def age = 36
+switch(age){
+      case 16..20 : insuranceRate = 0.05 ; break
+      case 21..50 : insuranceRate = 0.06 ; break
+      case 51..65 : insuranceRate = 0.07 ; break
+      default: throw new IllegalArgumentException()
+}
+assert insuranceRate == 0.06
+
+def ages = [20, 36, 42, 56]
+def midage = 21..50
+assert ages.grep(midage) == [36, 42]
+----
+
+=== Working with lists
+
+[source,groovy]
+.Specifying lists
+----
+List myList = [1, 2, 3]
+assert myList.size() == 3
+assert myList[0]== 1
+
+assert myList instanceof ArrayList
+List emptyList = []
+assert emptyList.size() == 0
+List longList = (0..1000).toList()
+assert longList[555] == 555
+
+List explicitList = new ArrayList()
+explicitList.addAll(myList)
+assert explicitList.size() == 3
+explicitList[0] = 10
+assert explicitList[0] == 10
+
+explicitList = new LinkedList(myList)
+assert explicitList.size() == 3
+explicitList[0] = 10
+assert explicitList[0] == 10
+----
+
+==== Using list operators
+
+lists override `getAt` and `putAt` methods to implement the subscript operator.
+
+[source,groovy]
+.Accessing parts of a list with an overloaded subscript operator
+----
+myList = ['a','b','c','d','e','f']
+
+assert myList[0..2] == ['a','b','c']
+assert myList[0,2,4] == ['a','c','e']
+
+myList[0..2] = ['x','y','z']
+assert myList == ['x','y','z','d','e','f']
+
+myList[3..5] = []
+assert myList == ['x','y','z']
+myList[1..1] = [0, 1, 2]
+assert myList == ['x', 0, 1, 2, 'z']
+----
+
+Subscript assignments with ranges:: don’t need to be of identical size. When the assigned
+list of values is smaller than the range or even empty, the list shrinks . When the
+assigned list of values is bigger, the list grows
+
+==== Adding and removing items
+
+[source,groovy]
+----
+def myList = []
+myList += 'a'
+assert myList == ['a']
+
+myList += ['b','c']
+assert myList == ['a','b','c']
+
+def myList = []
+myList << 'a' << 'b'
+assert myList == ['a','b']
+
+assert myList - ['b'] == ['a']
+assert myList * 2 == ['a','b','a','b']
+----
+
+
+==== Control structures
+
+Groovy lists are more than flexible storage places.
+
+They also play a major role in organizing the execution flow of Groovy programs.
+
+[source,groovy]
+----
+myList = ['a', 'b', 'c']
+assert myList.isCase('a')
+assert 'b' in myList
+
+def candidate = 'c'
+switch(candidate){
+    case myList : assert true; break
+    default: assert false
+}
+assert ['x','a','z'].grep(myList) == ['a']
+
+myList = []
+if (myList) assert false
+
+// Lists can be iterated with a 'for' loop
+def expr = ''
+for (i in [1,'*',5]){
+    expr += i
+}
+assert expr == '1*5'
+----
+
+==== Using list methods
+
+
+[source,groovy]
+----
+assert [1,[2,3]].flatten() == [1,2,3]
+assert [1,2,3].intersect([4,3,1])== [3,1]
+assert [1,2,3].disjoint([4,5,6])
+
+list =[1,2,3]
+popped = list.pop()
+assert popped == 3
+assert list == [1,2]
+
+assert [1,2].reverse() == [2,1]
+assert [3,1,2].sort() == [1,2,3]
+
+def list = [ [1,0], [0,1,2] ]
+list = list.sort { a,b -> a[0] <=> b[0] }
+assert list == [ [0,1,2], [1,0] ]
+
+list = list.sort { item -> item.size() }
+assert list == [ [1,0], [0,1,2] ]
+
+list = ['a','b','c']
+list.remove(2)
+assert list == ['a','b']
+list.remove('b')
+assert list == ['a']
+list = ['a','b','b','c']
+list.removeAll(['b','c'])
+assert list == ['a']
+
+def doubled = [1,2,3].collect{ item ->
+    item*2
+}
+assert doubled == [2,4,6]
+def odd = [1,2,3].findAll{ item ->
+    item % 2 == 1
+}
+assert odd == [1,3]
+
+def x = [1,1,1]
+assert [1] == new HashSet(x).toList()
+assert [1] == x.unique()
+
+def x = [1,null,1]
+assert [1,1] == x.findAll{it != null}
+assert [1,1] == x.grep{it}
+----
+
+==== Accessing list content
+
+[source,groovy]
+----
+def list = [1, 2, 3]
+assert list.first()== 1
+assert list.head()== 1
+assert list.tail()== [2, 3]
+
+
+----
+
+
+
+
+
+
+

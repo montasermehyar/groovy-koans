@@ -3,6 +3,8 @@ package koans
 import org.junit.Test
 
 class Java {
+
+
     @Test
     public void "Java beans"() {
         JavaPerson dries = new JavaPerson()
