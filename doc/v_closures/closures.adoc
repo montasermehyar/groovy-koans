@@ -1,0 +1,6 @@
+[[closures]]
+
+== Closures
+<<<
+
+=== A gentle introduction to closures

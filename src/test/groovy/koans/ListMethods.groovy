@@ -3,6 +3,7 @@ package koans
 import groovy.transform.Canonical
 import org.junit.Test
 
+@Newify(Employee.class)
 class ListMethods {
     @Test
     void "flatten"() {
@@ -351,6 +352,121 @@ class ListMethods {
         assert result == 2 * 1 * 2 * 3
     }
 
+    @Test
+    void "take"() {
+        def list = [1, 2, 3]
+        assert list.take(2) == list[0..1]
+    }
+
+
+    @Test
+    void "takeWhile"() {
+        def list = [1, 2, 3]
+        assert list.takeWhile { it < 3 } == list[0..1]
+
+        def letters = ('a'..'z')
+        // ------------ START EDITING HERE ----------------------
+        def partion
+        // ------------ STOP EDITING HERE  ----------------------
+        assert partion == ('a'..'l')
+    }
+
+    @Test
+    void "transpose"() {
+        // ------------ START EDITING HERE ----------------------
+        def list
+        // ------------ STOP EDITING HERE  ----------------------
+        def transpose = list.transpose()
+        assert transpose == [[1, 1], [2, 2], [3, 3]]
+    }
+
+    @Test
+    void "groupBy"() {
+        def result = [1, 2, 3, 4, 5, 6].groupBy([{ it % 2 }, { it < 4 }])
+        assert result == [1: [(true): [1, 3], (false): [5]], 0: [(true): [2], (false): [4, 6]]]
+
+        def employees = [Employee("Ahmad", 24), Employee("khaled", 78), Employee("salem", 99)]
+        // ------------ START EDITING HERE ----------------------
+        def threeFactor
+        // ------------ STOP EDITING HERE  ----------------------
+        assert threeFactor == [0: employees[0..1], 1: [employees[2]]]
+    }
+
+    @Test
+    void "collate"() {
+        def list = [1, 2, 3]
+        // ------------ START EDITING HERE ----------------------
+        def sublists
+        // ------------ STOP EDITING HERE  ----------------------
+        assert sublists.size() == 2
+        assert sublists[0] == [1, 2]
+    }
+
+    @Test
+    void "permutations"() {
+        def list = [1, 2, 3]
+        def permutations = list.permutations()
+        assert permutations == [[3, 2, 1], [3, 1, 2], [1, 3, 2], [2, 3, 1], [2, 1, 3], [1, 2, 3]] as Set
+
+        // ------------ START EDITING HERE ----------------------
+        def letters
+        // ------------ STOP EDITING HERE  ----------------------
+        assert letters.permutations() == [['z', 'w', 'a'], ['a', 'w', 'z'], ['a', 'z', 'w'], ['z', 'a', 'w'], ['w', 'a', 'z'], ['w', 'z', 'a']] as Set
+
+    }
+
+    @Test
+    void "combinations"() {
+        // ------------ START EDITING HERE ----------------------
+        def lists
+        // ------------ STOP EDITING HERE  ----------------------
+        def combinations = lists.combinations()
+        assert combinations == [['a', 1], ['b', 1], ['a', 2], ['b', 2], ['a', 3], ['b', 3]]
+    }
+
+    class HorseIterable implements Iterable<String> {
+        Iterator<String> iterator() { "horse".iterator() }
+    }
+
+    @Test
+    void "dropWhile"() {
+        def horse = new HorseIterable()
+        assert horse.dropWhile { it < 'r' } == ['r', 's', 'e']
+        assert horse.dropWhile { it <= 'r' } == ['s', 'e']
+
+        def nums = [1, 2, 3] as SortedSet
+
+        // ------------ START EDITING HERE ----------------------
+        def dropWhile
+        // ------------ STOP EDITING HERE  ----------------------
+        assert dropWhile == [] as SortedSet
+
+        // ------------ START EDITING HERE ----------------------
+        def dropWhile1
+        // ------------ STOP EDITING HERE  ----------------------
+        assert dropWhile1 == [2, 3] as SortedSet
+
+        // ------------ START EDITING HERE ----------------------
+        def dropWhile2
+        // ------------ STOP EDITING HERE  ----------------------
+        assert dropWhile2 == [3] as SortedSet
+
+        // ------------ START EDITING HERE ----------------------
+        def dropWhile3
+        // ------------ STOP EDITING HERE  ----------------------
+        assert dropWhile3 == [1, 2, 3] as SortedSet
+
+    }
+
+    @Test
+    void "collectMany"() {
+        def nums = 1..10
+        // ------------ START EDITING HERE ----------------------
+        def squaresAndCubesOfEvens
+        // ------------ STOP EDITING HERE  ----------------------
+        assert squaresAndCubesOfEvens == [4, 8, 16, 64, 36, 216, 64, 512, 100, 1000]
+    }
+
     def quickSort(list) {
         if (list.size() < 2) return list
         def pivot = list[list.size().intdiv(2)]
@@ -379,6 +495,6 @@ class ListMethods {
 
 @Canonical
 class Employee {
-    Integer age
     String name
+    Integer age
 }
