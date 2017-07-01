@@ -40,6 +40,7 @@ NOTE: Every innocent method call that you write in Groovy is really a call into
 
 ==== Customizing the MOP with hook methods
 
+===== MethodMissing
 
 [source,groovy]
 ----
@@ -70,6 +71,333 @@ def paul=[first:'Paul',last:'King']
 assert people.findByFirst('Dierk') == dierk
 assert people.findByLast('King') == paul
 ----
+
+
+
+===== PropertyMissing
+
+[source,groovy]
+----
+Object propertyMissing(String name)
+
+class PropPretender {
+    def propertyMissing(String name) {
+        "accessed $name"
+    }
+}
+
+def bounce = new PropPretender()
+assert bounce.hello == 'accessed hello'
+----
+
+[source,groovy]
+----
+def propertyMissing(String name) {
+    int result = 0
+    name.each {
+        result <<= 1
+        if (it == 'I') result++
+    }
+    return result
+}
+IIOI + IOI == IOOIO
+----
+
+
+===== Using closures for dynamic hooks
+
+[source,groovy]
+----
+class DynamicPretender {
+    Closure whatToDo = { name -> "accessed $name"}
+    def propertyMissing(String name) {
+    whatToDo(name)
+    }
+}
+
+def one = new DynamicPretender()
+assert one.hello == 'accessed hello'
+one.whatToDo = { name -> name.size() }
+assert one.hello == 5
+----
+
+==== Customizing GroovyObject methods
+
+[source,groovy]
+----
+public interface GroovyObject {
+    Object invokeMethod(String methodName, Object args);
+    Object getProperty(String propertyName);
+    void setProperty(String propertyName, Object newValue);
+    MetaClass getMetaClass();
+    void setMetaClass(MetaClass metaClass);
+}
+
+public abstract class GroovyObjectSupport implements GroovyObject {
+    public Object invokeMethod(String name, Object args) {
+        return getMetaClass().invokeMethod(this, name, args);
+    }
+    public Object getProperty(String property) {
+        return getMetaClass().getProperty(this, property);
+    }
+    public void setProperty(String property, Object newValue) {
+        getMetaClass().setProperty(this, property, newValue);
+    }
+// more here...
+}
+----
+NOTE: You can fool the MOP into thinking that a class that was actually com-
+      piled by Java was compiled by Groovy. You only need to implement the Groovy-
+      Object interface or, more conveniently, extend GroovyObjectSupport .
+
+As soon as a class implements GroovyObject , the following rules apply:
+
+- Every access to a property calls the `getProperty()` method.
+- Every modification of a property calls the `setProperty()` method.
+- Every call to an unknown method calls `invokeMethod()` . If the method is known,
+`invokeMethod()` is only called if the class implements `GroovyObject` and the
+marker interface `GroovyInterceptable`.
+
+[source,groovy]
+.Using getProperty to call parameterless methods without parentheses
+----
+class NoParens {
+    def getProperty(String propertyName) {
+        if (metaClass.hasProperty(this, propertyName)) {
+            return metaClass.getProperty(this, propertyName)
+        }
+        invokeMethod propertyName, null
+    }
+}
+
+class PropUser extends NoParens {
+    boolean existingProperty = true
+}
+def user = new PropUser()
+assert user.existingProperty
+assert user.toString() == user.toString
+----
+
+
+NOTE: Once you’ve implemented getProperty() , every property will be
+      found and thus propertyMissing() will no longer be called.
+
+=== Modifying behavior through the metaclass
+
+==== MetaClass knows it all
+
+[source,groovy]
+----
+
+MetaClass mc = String.metaClass
+final Object[] NO_ARGS = []
+assert 1 == mc.respondsTo("toString", NO_ARGS).size()
+assert 3 == mc.properties.size()
+assert 76 == mc.methods.size()
+assert 177 == mc.metaMethods.size()
+assert "" == mc.invokeMethod("","toString", NO_ARGS)
+assert null == mc.invokeStaticMethod(String, "println", NO_ARGS)
+assert "" == mc.invokeConstructor(NO_ARGS)
+----
+
+.Calling a method means calling the metaclass
+****
+You can assume that Groovy never calls methods directly in the bytecode but always
+through the object’s metaclass. At least, this is how it looks to you as a programmer.
+
+Behind the scenes there are optimizations going on that technically circumvent the
+metaclass, but only when it’s safe to do so.
+****
+
+==== How to find the metaclass and invoke methods
+
+Objects that don’t inherit from GroovyObject aren’t asked for the metaClass
+property. Their metaclass is retrieved from the MetaClassRegistry .
+
+IMPORTANT: The default metaclass can be changed from the outside with-
+           out touching any application code. Let’s assume you have a class Custom in
+           package custom . Then you can change its default metaclass by putting a meta-
+           class with the name groovy.runtime.metaclass.custom.CustomMetaClass on
+           the classpath. This device has been proven useful when inspecting large Groovy
+           codebases in production.
+
+[source,groovy]
+----
+// MOP pseudo code
+def mopInvoke(Object obj, String method, Object args) {
+    if (obj instanceof GroovyObject) {
+        return groovyObjectInvoke(obj, method, args)
+    }
+    registry.getMetaClass(obj.class).invokeMethod(obj, method, args)
+}
+----
+
+[source,groovy]
+----
+def groovyObjectInvoke(Object obj, String method, Object args) {
+
+    if (obj instanceof GroovyInterceptable) {
+        return obj.metaClass.invokeMethod(method, args)
+    }
+    if (!obj.metaClass.respondsTo(method, args))
+        return obj.metaClass.invokeMethod(method, args)
+
+    obj.metaClass.invokeMethod(obj, method, args)
+}
+----
+
+[source,groovy]
+----
+// Default meta class pseudo code
+def invokeMethod(Object obj, String method, Object args) {
+    if (obj.metaClass.respondsTo(method, args)) {
+        return methodCall(obj, method, args)
+    }
+    if (methodMissingAvailable(obj)) {
+        return obj.metaClass.methodMissing(method, args)
+    }
+    throw new MissingMethodException()
+}
+----
+
+==== Setting other metaclasses
+
+Groovy comes with a number of metaclasses:
+
+- The default metaclass MetaClassImpl , which is used in the vast majority of cases
+- The ExpandoMetaClass , which can expand the state and behavior
+- A ProxyMetaClass , which can decorate a metaclass with interception capabilities
+- Additional metaclasses that are used internally and for testing purposes
+
+[source,groovy]
+.Assigning a ProxyMetaClass to a GroovyObject for tracing method calls
+----
+
+class InspectMe {
+int outer(){
+return inner()
+}
+private int inner(){
+return 1
+}
+}
+def tracer = new TracingInterceptor(writer: new StringWriter())
+def proxyMetaClass = ProxyMetaClass.getInstance(InspectMe)
+proxyMetaClass.interceptor = tracer
+InspectMe inspectMe = new InspectMe()
+inspectMe.metaClass = proxyMetaClass
+
+assert 1 == inspectMe.outer()
+assert "\n" + tracer.writer.toString() == """
+before InspectMe.outer()
+before InspectMe.inner()
+after InspectMe.inner()
+after InspectMe.outer()
+"""
+----
+
+
+.Interceptors are more than aspects
+****
+Interceptors may remind one or the other reader of aspect-oriented programming
+(AOP) and the TracingInterceptor suggests this connotation. But interceptors can
+do much more: they can redirect to a different method, change the arguments, sup-
+press the method call, and even change the return value!
+****
+
+[source,groovy]
+----
+def boxer = new Expando()
+boxer.takeThis = 'ouch!'
+boxer.fightBack = { times -> takeThis * times}
+assert boxer.fightBack(3) == 'ouch!ouch!ouch!'
+----
+
+[source,groovy]
+.Adding low() to java.lang.String via ExpandoMetaClass
+----
+assert String.metaClass =~ /MetaClassImpl/
+String.metaClass.low = {-> delegate.toLowerCase() }
+assert String.metaClass =~ /ExpandoMetaClass/
+assert "DiErK".low() == "dierk"
+----
+
+[source,groovy]
+.Modifying the metaclass of a class (Groovy and Java)
+----
+class MyGroovy1 { }
+def before = new MyGroovy1()
+MyGroovy1.metaClass.myProp = "MyGroovy prop"
+MyGroovy1.metaClass.test = {-> myProp }
+
+try {
+before.test()
+assert false, "should throw MME"
+} catch(mme) { }
+
+assert new MyGroovy1().test() == "MyGroovy prop"
+----
+
+[source,groovy]
+.Modifying the metaclass of a Groovy instance
+----
+class MyGroovy2 {}
+
+def myGroovy = new MyGroovy2()
+myGroovy.metaClass.myProp = "MyGroovy prop"
+myGroovy.metaClass.test = { -> myProp }
+try {
+    new MyGroovy2().test()
+    assert false, "should throw MME"
+} catch (mme) {
+}
+----
+
+
+[source,groovy]
+.Modifying the metaclass of a Java instance
+----
+def myJava = new String()
+myJava.metaClass.myProp = "MyJava prop"
+myJava.metaClass.test = { -> myProp }
+try {
+    new String().test()
+    assert false, "should throw MME"
+} catch (mme) {
+}
+
+assert myJava.test() == "MyJava prop"
+----
+
+[source,groovy]
+.Decoding A Space Odyssey with a metaclass builder
+----
+def move(string, distance) {
+    string.collect { (it as char) + distance as char }.join()
+}
+String.metaClass {
+    shift = -1
+    encode {-> move delegate, shift }
+    decode {-> move delegate, -shift }
+    getCode {-> encode() }
+    getOrig {-> decode() }
+}
+assert "IBM".encode() == "HAL"
+assert "HAL".orig == "IBM"
+def ibm = "IBM"
+ibm.shift = 7
+assert ibm.code == "PIT"
+----
+
+
+NOTE: Modifying the metaclass of the String class will affect all future String
+      instances.
+
+
+
+
+
+
 
 
 
