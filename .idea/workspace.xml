@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ef9cc816-09cd-4948-86b2-7a0e320a733a" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/doc/viii_dynamic_programming/dynamic_programming.adoc" afterPath="$PROJECT_DIR$/doc/viii_dynamic_programming/dynamic_programming.adoc" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -2243,7 +2242,7 @@
       <workItem from="1498648605521" duration="4000000" />
       <workItem from="1498729073660" duration="3637000" />
       <workItem from="1498734844534" duration="17122000" />
-      <workItem from="1498892215858" duration="30409000" />
+      <workItem from="1498892215858" duration="30433000" />
     </task>
     <task id="LOCAL-00001" summary="finishing the first part documentation">
       <created>1497476255971</created>
@@ -2343,7 +2342,14 @@
       <option name="project" value="LOCAL" />
       <updated>1498932998769</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="add new docs">
+      <created>1498948128007</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1498948128007</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -2379,7 +2385,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="191565000" />
+    <option name="totallyTimeSpent" value="191589000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
