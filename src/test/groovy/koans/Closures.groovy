@@ -1,9 +1,9 @@
 package koans
 
+import groovy.transform.ToString
 import org.junit.Test
 
 class Closures {
-
     @Test
     public void "Closures "() {
 
@@ -62,12 +62,12 @@ class Closures {
         runThreeTimes { println 'shalalalie' }
     }
 
-
     def times(int amount, Closure closure) {
         // ------------ START EDITING HERE ----------------------
 
         // ------------ STOP EDITING HERE  ----------------------
     }
+
 
     @Test
     public void "Closure as last method parameter"() {
@@ -99,4 +99,102 @@ class Closures {
 
     }
 
+    @Test
+    void "trampoline"() {
+        def removeUntilListIsEmpty
+
+        // ------------ START EDITING HERE ----------------------
+        removeUntilListIsEmpty = { list, counter = 0 ->
+            if (list.size() == 0) {
+                counter
+            } else {
+                removeUntilListIsEmpty(list.tail(), counter + 1)
+            }
+        }
+        // ------------ STOP EDITING HERE  ----------------------
+        assert removeUntilListIsEmpty(1..10000) == 10000
+    }
+
+    @Test
+    void "memoize"() {
+        def fib
+        fib = { it < 2 ? 1 : fib(it - 1) + fib(it - 2) }
+        // ------------ START EDITING HERE ----------------------
+
+        // ------------ STOP EDITING HERE  ----------------------
+        def start = System.currentTimeMillis()
+        assert fib(40) == 165_580_141
+        assert System.currentTimeMillis() - start < 150
+    }
+
+    @Test
+    void "isCase"() {
+        def odd = { it % 2 }
+
+        switch (11) {
+            case odd: print "this is odd number"
+        }
+
+        if (11 in odd) "this is odd number too"
+
+        // ------------ START EDITING HERE ----------------------
+        def even
+        // ------------ STOP EDITING HERE  ----------------------
+        switch (10) {
+            case !even: assert true
+            default: assert false
+        }
+
+        if (10 in even) assert true
+        else assert false
+    }
+
+    @ToString
+    class Person {
+        String name
+    }
+
+    class PersonRepository {
+
+        def save(Person person) {
+            "$person saved"
+        }
+
+        def delete(Person person) {
+            "$person deleted"
+        }
+
+    }
+
+    @Test
+    void "delegation"() {
+        def p = new Person(name: 'Igor')
+        def cl = { name.toUpperCase() }
+        cl.delegate = p
+        assert cl() == 'IGOR'
+
+        PersonRepository repository = new PersonRepository()
+        def save = { Person person -> save(person) }
+        def delete = { Person person -> delete(person) }
+        // ------------ START EDITING HERE ----------------------
+
+        // ------------ STOP EDITING HERE  ----------------------
+        assert save(p) == 'koans.Closures$Person(Igor) saved'
+        assert delete(p) == 'koans.Closures$Person(Igor) deleted'
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

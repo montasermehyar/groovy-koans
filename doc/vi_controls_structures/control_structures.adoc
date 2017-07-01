@@ -1,0 +1,318 @@
+[[control-structures]]
+
+== Control Structures
+<<<
+
+
+=== Groovy truth
+
+==== Evaluating Boolean tests
+The expression of a Boolean test can be of any (nonvoid) type. It can apply to any
+object. Groovy decides whether to consider the expression as being true or false
+by applying the rules shown in table
+
+.Sequence of rules used to evaluate a Boolean test
+|===
+|Runtime type |Evaluation criterion required for truth
+
+|Boolean |Corresponding Boolean value is true
+|Matcher |Matcher has a match
+|Collection |Collection is nonempty
+|Map |Map is nonempty
+|String , GString |String is nonempty
+|Number , Character |Value is nonzero
+|None of the above |Object reference is non-null
+|===
+
+
+[source,groovy]
+----
+//Boolean values are trivial
+assert true
+assert !false
+
+//Matchers must match
+assert ('a' =~ /./)
+assert !('a' =~ /b/)
+
+//Collections must be nonempty
+assert [1]
+assert ![]
+
+//Iterators must have next element
+Iterator iter = [1].iterator()
+assert iter
+iter.next()
+assert !iter
+
+//Maps must be nonempty
+assert ['a':1]
+assert ![:]
+
+//Strings must be nonempty
+assert 'a'
+assert !''
+
+//Numbers (any type) must be nonzero
+assert 1
+assert 1.1
+assert 1.2f
+assert 1.3g
+assert 2L
+assert 3G
+assert !0
+
+//Objects must be non-null
+assert ! null
+assert new Object()
+
+//Custom truth
+class AlwaysFalse {
+    boolean asBoolean() { false }
+}
+assert ! new AlwaysFalse()
+----
+
+
+==== if statement
+
+[source,groovy]
+----
+if (true) assert true
+else assert false
+
+if (1) assert true
+else if (2) assert true
+else assert false
+
+if ('nonEmpty') assert true
+else if (['x']) assert true
+else
+    if (0) assert false
+    else if ([]) assert false
+----
+
+
+==== The conditional ?: operator and Elvis
+
+Groovy also supports the ternary conditional operator ?: for small inline tests.
+[source,groovy]
+----
+def result = (1==1) ? 'ok' : 'failed'
+assert result == 'ok'
+result = 'some string' ? 10 : ['x']
+assert result == 10
+
+// default value
+def value = argument ?: standard
+----
+
+==== The switch statement and the in operator
+
+[source,groovy]
+----
+switch (10) {
+    case 0 : assert false ; break;
+    case 0..9 : assert false ; break;
+    case [8,9,11] : assert false ; break;
+    case Float : assert false ; break;
+    case {it%3 == 0}: assert false ; break;
+    case ~/../ : assert true ; break;
+    default : assert false
+}
+----
+
+
+.Standard implementations of isCase for switch , grep , and in
+|===
+|Class |a.isCase(b) implemented as
+
+|Object |a.equals(b)
+|Class |a.isInstance(b)
+|Collection |a.contains(b)
+|Range |a.contains(b)
+|Pattern |a.matcher(b.toString()).matches()
+|String |(a==null && b==null) || a.equals(b)
+|Closure |a.call(b)
+|===
+
+NOTE: The isCase method is also used with grep on collections such that
+      `collection.grep(classifier)` returns a collection of all items that are a case
+      of that classifier.
+
+==== THE IN OPERATOR
+
+The isCase logic is actually used three times: for switch cases for grep classification
+and for the in operator as used for conditionals like the following assertion:
+[source,groovy]
+----
+def okValues = [1, 2, 3]
+def value = 2
+assert value in okValues
+----
+
+TIP: It’s possible to overload the isCase method to support different kinds of classification
+     logic depending on the candidate type. If you provide both methods, `isCase(String candidate)` and `isCase(Integer candidate)` , then `switch ('1')` can behave differently than switch(1) with your object as the classifier.
+
+
+==== PRODUCING INFORMATIVE FAILURE MESSAGES
+
+[source,groovy]
+----
+a = 1
+assert a==1
+
+//with messages
+input = new File('no such file')
+assert input.exists() , "cannot find '$input.name'"
+assert input.canRead() , "cannot read '$input.canonicalPath'"
+println input.text
+----
+
+==== ENSURE CODE WITH INLINE UNIT TESTS
+
+[source,groovy]
+----
+
+def host = /\/\/([a-zA-Z0-9-]+(\.[a-zA-Z0-9-])*?)(:|\/)/
+assertHost 'http://a.b.c:8080/bla', host ,'a.b.c'
+assertHost 'http://a.b.c/bla', host ,'a.b.c'
+assertHost 'http://127.0.0.1:8080/bla', host ,'127.0.0.1'
+assertHost 'http://t-online.de/bla', host ,'t-online.de'
+assertHost 'http://T-online.de/bla', host ,'T-online.de'
+
+def assertHost (candidate, regex, expected){
+    candidate.eachMatch(regex){ assert it[1] == expected
+}
+----
+
+
+=== Looping
+
+==== Looping with while
+
+[source,groovy]
+----
+def list = [1,2,3]
+while (list) {
+    list.remove(0)
+}
+assert list == []
+while (list.size() < 3) list << list.size() + 1
+assert list == [1,2,3]
+----
+
+NOTE: there are no `do {} while(condition)` or `repeat {} until (condition)` loops
+      in Groovy.
+
+
+
+==== Looping with for
+
+[source,groovy]
+----
+def store = ''
+for (String s in 'a'..'c') store += s
+assert store == 'abc'
+store = ''
+for (i in [1, 2, 3]) {
+    store += i
+}
+assert store == '123'
+
+def myString = 'Old school Java'
+store = ''
+for (int i=0; i < myString.size(); i++) {
+    store += myString[i]
+}
+assert store == myString
+myString = 'Java range index'
+store = ''
+for (int i : 0 ..< myString.size()) {
+    store += myString[i]
+}
+assert store == myString
+
+myString = 'Groovy range index'
+store = ''
+for (i in 0 ..< myString.size()) {
+    store += myString[i]
+}
+assert store == myString
+
+myString = 'Java string Iterable'
+store = ''
+for (String s : myString) {
+    store += s
+}
+assert store == myString
+myString = 'Groovy iterator'
+store = ''
+for (s in myString) {
+    store += s
+}
+assert store == myString
+
+
+def file = new File('myFileName.txt')
+for (line in file) println line
+
+def matcher = '12xy3'=~/\d/
+for (match in matcher) println match
+
+
+for (x in 0..9) { println x }
+
+----
+
+
+==== Normal termination: return/break/continue
+
+[source,groovy]
+----
+def a = 1
+while (true) {
+    a++
+    break
+}
+assert a == 2
+
+for (i in 0..10) {
+    if (i == 0) continue
+    a++
+    if (i > 0) break
+}
+assert a == 3
+----
+
+==== Exceptions: throw/try-catch-finally
+
+[source,groovy]
+----
+def myMethod() {
+    throw new IllegalArgumentException()
+}
+def log = []
+try {
+    myMethod()
+} catch (Exception e) {
+    log << e.toString()
+} finally {
+    log << 'finally'
+}
+assert log.size() == 2
+
+
+try {
+if (Math.random() < 0.5) 1 / 0
+    else null.hashCode()
+} catch (ArithmeticException | NullPointerException exception) {
+    println exception.class.name
+}
+----
+
+NOTE: Java 7 introduced a try-with-resources mechanism. At the time of
+      writing, Groovy doesn’t support that syntax. try-with-resources isn’t needed
+      in Groovy, where we have full closure support.
+
+

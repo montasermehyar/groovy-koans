@@ -1,0 +1,75 @@
+[[dynamic-programming]]
+
+== Dynamic Programming
+<<<
+
+=== What is dynamic programming?
+
+In classic object-oriented systems, every class has a well-known set of states, captured in
+the fields of that class, and well-known behavior, defined by its methods. Neither the
+set of states nor the behavior ever changes after compilation, and it’s identical for all
+instances of a class.
+
+.Dynamic programming
+****
+breaks this limitation by allowing the introduction of a
+new state, or even more importantly, allowing the addition of a new behavior or modi-
+fication of an existing one.
+****
+
+
+.What is “meta”?
+----
+Meta means applying a concept onto itself—for example, metainformation is information about information.
+Likewise, because programming is “writing code,” metaprogramming means writing code that writes code.
+----
+
+=== Meta Object Protocol
+
+[source,groovy]
+----
+println 'Hello' // Groovy
+InvokerHelper.invokeMethod(this, "println", {"Hello"}); // Java
+----
+
+NOTE: Every innocent method call that you write in Groovy is really a call into
+      the MOP , regardless of whether the call target has been compiled with Groovy
+      or Java. This applies equally to static and instance method calls, constructor
+      calls, and property access, even if the target is the same object as the caller.
+
+
+==== Customizing the MOP with hook methods
+
+
+[source,groovy]
+----
+Object methodMissing(String name, Object arguments)
+
+class Pretender {
+    def methodMissing(String name, Object args) {
+        "called $name with $args"
+    }
+}
+def bounce = new Pretender()
+assert bounce.hello('world') == 'called hello with [world]'
+----
+
+[source,groovy]
+.Using methodMissing to simulate a miniature GORM
+----
+class MiniGorm {
+def db = []
+    def methodMissing(String name, Object args) {
+        db.find { it[name.toLowerCase()-'findby'] == args[0] }
+    }
+}
+
+def people=new MiniGorm()
+def dierk=[first:'Dierk',last:'Agerm']
+def paul=[first:'Paul',last:'King']
+assert people.findByFirst('Dierk') == dierk
+assert people.findByLast('King') == paul
+----
+
+
+

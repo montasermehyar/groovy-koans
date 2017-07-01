@@ -4,3 +4,436 @@
 <<<
 
 === A gentle introduction to closures
+
+A Closure::
+is a piece of code wrapped up as an object. It acts like a method in
+that it can take parameters and return a value. It’s a normal object in that you can pass
+a reference to it just as you can to any other object.
+
+[source,groovy]
+----
+Closure envelope = { person -> new Letter(person).send() }
+addressBook.each (envelope)
+
+addressBook.each { new Letter(it).send() }
+----
+
+=== Using iterators
+
+[source,java]
+----
+// Java 5
+for (ItemType item : list) {
+    // do something with item
+}
+
+// Java 8 with lambda
+list.stream().forEach( (item) -> {
+    // do something with item
+} );
+----
+
+[source,groovy]
+----
+// Groovy object iteration
+list.each { item -> /* do something with item */ }
+
+// Groovy closures with Java 8
+list.stream().forEach { println it}
+----
+
+=== Handling resources with a protocol
+
+How many times have you seen code that opens a stream but calls close at the end of
+the method, overlooking the fact that the close statement may never be reached
+when an exception occurs while processing? So, it needs to be protected with a
+`try-catch` block. No—wait—that should be `try-finally` , or should it? And inside the
+finally block, close can throw another exception that needs to be handled. There
+are too many details to remember, and so resource handling is often implemented
+incorrectly. With Groovy’s closure support, you can put that logic in one place and use
+it like this:
+
+[source,groovy]
+----
+new File('myfile.txt').eachLine { println it }
+----
+
+**Let’s see what resource-handling solutions Java provides and why they’re not used
+often, and then we’ll show you the corresponding Groovy solutions.**
+
+==== A COMMON JAVA APPROACH : USE INNER CLASSES
+Java’s limitations get in the way too much to make it an elegant solution. The fol-
+lowing example uses a Resource that it gets from a ResourceHandler , which is respon-
+sible for its proper construction and destruction. Only the boldface code is needed
+for doing the job:
+[source,java]
+----
+// Java
+interface ResourceUser { // a @FunctionalInterface in Java 8
+    void use(Resource resource)
+}
+resourceHandler.handle(new ResourceUser(){
+    public void use (Resource resource) {
+        resource.doSomething()
+    }
+});
+----
+
+[source,groovy]
+----
+// groovy
+resourceHandler.handle { resource -> resource.doSomething() }
+----
+
+==== AN ALTERNATIVE JAVA APPROACH : THE TEMPLATE METHOD PATTERN
+Another strategy to centralize resource handling in Java is to do it in a superclass and
+let the resource-using code live in a subclass. This is the typical implementation of the
+Template Method (Gang of Four) pattern.
+
+If there were only one interface that could be used for the purpose of passing logic
+around, like the imaginary `ResourceUser` interface from the previous example, then
+things wouldn’t be too bad. But in Java, there’s no such beast—that is, no single
+ResourceUser interface that serves all purposes. The signature of the callback method
+use needs to adapt to the purpose: the number and type of parameters, the number
+and type of declared exceptions, and the return type.
+
+
+=== Declaring closures
+
+==== Simple declaration
+[source,groovy]
+----
+log = ''
+(1..10).each{ counter -> log += counter }
+assert log == '12345678910'
+log = ''
+(1..10).each{ log += it }
+assert log == '12345678910'
+----
+
+
+TIP: Think of the arrow as an indication that parameters are passed from the
+     method on the left into the closure body on the right.
+
+==== Using assignments for declaration
+
+[source,groovy]
+----
+def printer = { line -> println line }
+----
+
+TIP: Whenever you see the braces of a closure, think: `new Closure(){}` .
+
+[source,groovy]
+----
+def Closure getPrinter() {
+    return { line -> println line }
+}
+----
+
+==== Referring to methods as closures
+
+[source,groovy]
+----
+class SizeFilter {
+    Integer limit
+    boolean sizeUpTo(String value) {
+        return value.size() <= limit
+    }
+}
+
+SizeFilter filter6 = new SizeFilter(limit:6)
+SizeFilter filter5 = new SizeFilter(limit:5)
+
+Closure sizeUpTo6 = filter6.&sizeUpTo
+def words = ['long string', 'medium', 'short', 'tiny']
+
+assert 'medium' == words.find (sizeUpTo6)
+assert 'short' == words.find (filter5.&sizeUpTo)
+----
+
+==== Multimethod
+
+[source,groovy]
+----
+class MultiMethodSample {
+    int mysteryMethod (String value) {
+        return value.length()
+    }
+    int mysteryMethod (List list) {
+        return list.size()
+    }
+    int mysteryMethod (int x, int y) {
+        return x+y
+    }
+}
+
+MultiMethodSample instance = new MultiMethodSample()
+Closure multi = instance.&mysteryMethod
+assert 10 == multi ('string arg')
+assert 3 == multi (['list', 'of', 'values'])
+assert 14 == multi (6, 8)
+
+----
+
+
+==== Comparing the available options
+
+[source,groovy]
+----
+Map map = ['a':1, 'b':2]
+map.each{ key, value -> map[key] = value * 2 }
+assert map == ['a':2, 'b':4]
+
+Closure doubler = {key, value -> map[key] = value * 2 }
+map.each(doubler)
+assert map == ['a':4, 'b':8]
+
+def doubleMethod (entry){
+    entry.value = entry.value * 2
+}
+doubler = this.&doubleMethod
+map.each(doubler)
+assert map == ['a':8, 'b':16]
+
+----
+
+
+=== Using closures
+
+==== Calling a closure
+
+====
+Suppose you have a reference x pointing to a closure; you can call it with `x.call()` or
+simply `x()` . You’ve probably guessed that any arguments to the closure call go between
+the parentheses.
+====
+
+[source,groovy]
+.Calling Closure
+----
+def adder = { x, y -> return x+y }
+assert adder(4, 3) == 7
+assert adder.call(2, 6) == 8
+----
+
+[source,groovy]
+.Calling a closure from within a method body
+----
+def benchmark(int repeat, Closure worker) {
+    def start = System.nanoTime()
+    repeat.times { worker(it) }
+    def stop = System.nanoTime()
+    return stop - start
+}
+def slow = benchmark(10000) { (int) it / 2 }
+def fast = benchmark(10000) { it.intdiv(2) }
+assert fast * 2 < slow
+----
+
+=== More closure capabilities
+
+The class `groovy.lang.Closure` is an ordinary class, albeit one with extraordinary
+power and extra language support. It has a number of methods available beyond
+`call` . We’ll present the most important ones. Even though you’ll usually just declare
+and call closures, it’s nice to know there’s extra power available when you need it.
+
+==== REACTING ON THE PARAMETER COUNT OR TYPE
+
+`Map’s each` method. It passes either a `Map.Entry` object or
+key and value separately into a supplied closure, depending on whether the closure
+takes one or two arguments. The each method adapts its behavior depending on the
+number of arguments that the closure that it receives was built with. You can do this
+in your own methods by retrieving the expected parameter count (and types, if
+declared) by calling Closure ’s `getMaximumNumberOfParameters` and `getParameterTypes` methods:
+
+[source,groovy]
+----
+def numParams (Closure closure){
+closure.getMaximumNumberOfParameters()
+}
+assert numParams { one -> } == 1
+assert numParams { one, two -> } == 2
+def paramTypes (Closure closure){
+    closure.getParameterTypes()
+}
+assert paramTypes { String s -> } == [String]
+assert paramTypes { Number n, Date d -> } == [Number, Date]
+----
+
+==== HOW TO CURRY FAVOR WITH A CLOSURE
+
+""
+**Currying** is a technique invented by Moses Schönfinkel and Gottlob Frege, and named
+after the logician Haskell Brooks Curry (1900–1982), a pioneer in functional program-
+ming.
+""
+ The basic idea is to take a function with multiple parameters and transform it into a
+ function with fewer parameters by fixing some of the values.
+
+In Groovy, Closure ’s curry method returns a clone of the current closure, having
+bound one or more parameters to a given value. Parameters are bound to curry ’s
+arguments from left to right. The following listing gives an implementation.
+
+
+[source,groovy]
+----
+def mult = { x, y -> return x * y }
+def twoTimes = mult.curry(2)
+assert twoTimes(5) == 10
+
+def configurator = { format, filter, line ->
+    filter(line) ? format(line) : null
+}
+def appender = { config, append, line ->
+    def out = config(line)
+    if (out) append(out)
+}
+
+def dateFormatter = { line -> "${new Date()}: $line" }
+def debugFilter = { line -> line.contains('debug') }
+def consoleAppender = { line -> println line }
+def myConf = configurator.curry(dateFormatter, debugFilter)
+def myLog = appender.curry(myConf, consoleAppender)
+
+myLog('here is some debug message')
+myLog('this will not be printed')
+----
+
+==== CLOSURE COMPOSITION
+
+[source,groovy]
+----
+def fourTimes = twoTimes >> twoTimes
+def eightTimes = twoTimes << fourTimes
+assert eightTimes(1) == twoTimes(fourTimes(1))
+----
+
+==== MEMOIZATION
+
+When you have a closure that’s called much too often with the same arguments or
+the execution of the closure is very expensive, then you may want to cache the results.
+
+[source,groovy]
+----
+def fib
+fib = { it < 2 ? 1 : fib(it-1) + fib(it-2) }
+fib = fib.memoize()
+assert fib(40) == 165_580_141
+----
+==== JUMPING ON THE TRAMPOLINE
+
+Our fib closure included a recursive call. Such calls can easily lead to a stack overflow,
+and because the JVM has no tail call elimination, this is difficult to overcome. Groovy
+offers two approaches. The first follows the trampoline 9 algorithm, and we’ll use the
+respective method for very inefficiently (but functionally) finding the last element of
+anything that has at least a size, a head, and a tail
+
+[source,groovy]
+----
+def last
+last = { it.size() == 1 ? it.head() : last.trampoline(it.tail()) }
+last = last.trampoline()
+assert last(0..10_000) == 10_000
+----
+
+Without trampoline , the code goes into a stack overflow before 2,000 iterations.
+
+==== CLASSIFICATION VIA THE IS CASE METHOD
+
+Closures implement the isCase method to make them work as classifiers in grep
+and switch .
+
+[source,groovy]
+----
+def odd = { it % 2 == 1}
+assert [1,2,3].grep(odd) == [1, 3]
+switch(10) {
+    case odd : assert false
+}
+if (2 in odd) assert false
+----
+
+The `asWriteable` method returns a clone of the current closure that has an addi-
+tional writeTo(Writer) method to write the result of a closure call directly into the
+given Writer .
+
+=== Understanding closure scope
+
+you cannot directly set this to a different value, you can set a so-called delegate , which will
+be used when resolving free variables. Per default, the delegate refers to the owner .
+
+[source,groovy]
+----
+class Mother {
+    def prop = 'prop'
+
+    def method() { 'method' }
+
+    Closure birth(param) {
+        def local = 'local'
+        def closure = {
+            [this, prop, method(), local, param]
+        }
+        return closure
+    }
+}
+
+Mother julia = new Mother()
+def closure = julia.birth('param')
+
+def context = closure.call()
+assert context[0] == julia
+assert context[1, 2] == ['prop', 'method']
+assert context[3, 4] == ['local', 'param']
+
+assert closure.thisObject == julia
+assert closure.owner == julia
+
+assert closure.delegate == julia
+assert closure.resolveStrategy == Closure.OWNER_FIRST
+----
+
+The GDK with method does exactly that: executing a closure by first setting the
+delegate to the receiver of the with method:
+
+[source,groovy]
+----
+def map = [:]
+map.with { //delegate is now map
+     a = 1
+     b = 2
+}
+assert map == [a:1, b:2]
+----
+
+NOTE: `ResolveStrategy` possible options `OWNER_ONLY` , `OWNER_FIRST (default)` , `DELEGATE_ONLY` , `DELEGATE_FIRST` , or `SELF_ONLY` .
+
+.The classic accumulator test
+****
+Paul Graham first proposed this test in his excellent
+article “Revenge of the Nerds"
+
+=====
+We want to write a function that generates accumulators—a function that
+takes a number n , and returns a function that takes another number i
+and returns n incremented by i .
+=====
+
+[source]
+.lisp
+----
+(defun foo (n)
+(lambda (i) (incf n i)))
+----
+
+[source,groovy]
+.groovy
+----
+def foo(n) {
+    return {n += it}
+}
+----
+****
+
+
