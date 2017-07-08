@@ -1,0 +1,4 @@
+moduleName=arrays
+moduleVersion=1.0
+extensionClasses=java.util.Arrays
+staticExtensionClasses=
