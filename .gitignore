@@ -1,0 +1,9 @@
+.idea
+build/
+ext-module/src/main/java/
+ext-module/src/test/
+src/main/java/
+src/test/java/
+src/test/resources/
+*.iml
+.gradle
