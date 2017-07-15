@@ -610,8 +610,6 @@ def p3 = new PhoneBook3()
 }*.join()
 ----
 
-===
-
 
 ==== Easier cloning and externalizing
 
@@ -651,4 +649,473 @@ class Chef1 implements Cloneable {
 ----
 
 
+.Four @AutoClone styles
+|===
+|Name |Description
+|CLONE |Adds a `clone()` method to your class. The `clone()` method will call
+`super.clone()` before calling `clone()` on each Cloneable property
+of the class. Doesn’t provide deep cloning. Not suitable if you have final
+properties. This is the default cloning style if no style attribute is provided.
+|SIMPLE |Adds a `clone()` method to your class that calls the no-arg constructor
+then copies each property calling `clone()` for each Cloneable property.
+Handles inheritance hierarchies. Not suitable if you have final properties.
+Doesn’t provide deep cloning.
+|COPY_CONSTRUCTOR |Adds a copy constructor, which takes your class as its parameter, and a
+`clone()` method to your class. The copy constructor method copies each
+property calling `clone()` for each Cloneable property. The `clone()`
+method creates a new instance making use of the copy constructor. Suitable
+if you have final properties. Handles inheritance hierarchies. Doesn’t provide
+deep cloning.
+|SERIALIZATION |Adds a `clone()` method to your class that uses serialization to copy your
+class. Suitable if your class already implements the Serializable or
+Externalizable interface. Automatically performs deep cloning. Not as
+time or memory efficient. Not suitable if you have final properties.
+|===
+
+
+[source,groovy]
+.Using the COPY_CONSTRUCTOR style with @AutoClone
+----
+import groovy.transform.*
+import static groovy.transform.AutoCloneStyle.*
+@TupleConstructor
+@AutoClone(style=COPY_CONSTRUCTOR)
+class Person {
+    final String name
+    final Date born
+}
+@TupleConstructor(includeSuperProperties=true,
+        callSuper=true)
+@AutoClone(style=COPY_CONSTRUCTOR)
+class Chef2 extends Person {
+    final List<String> recipes
+}
+def name = 'Jamie Oliver'
+def recipes = ['Lentil Soup', 'Crispy Duck']
+def born = Date.parse('yyyy-MM-dd', '1975-05-27')
+def c1 = new Chef2(name, born, recipes)
+def c2 = c1.clone()
+assert c2.name == name
+assert c2.born == born
+assert c2.recipes == recipes
+----
+The added methods generated for the Chef2 class look roughly like this:
+[source,java]
+----
+protected Chef2(Chef2 other) {
+    super(other)
+    if (other.recipes instanceof Cloneable) {
+        this.recipes = (List<String>) other.recipes.clone()
+    } else {
+        this.recipes = other.recipes
+    }
+}
+public Chef2 clone() throws CloneNotSupportedException {
+    new Chef2(this)
+}
+----
+
+
 ===== @GROOVY.TRANSFORM.AUTOEXTERNALIZE
+
+[source,groovy]
+.Using @AutoExternalize for easier serialization
+----
+import groovy.transform.*
+@AutoExternalize
+@ToString
+class Composer {
+    String name
+    int born
+    boolean married
+}
+def c = new Composer(name: 'Wolfgang Amadeus Mozart',
+        born: 1756, married: true)
+def baos = new ByteArrayOutputStream()
+baos.withObjectOutputStream{ os -> os.writeObject(c) }
+def bais = new ByteArrayInputStream(baos.toByteArray())
+def loader = getClass().classLoader
+def result
+bais.withObjectInputStream(loader) {
+    result = it.readObject().toString()
+}
+assert result == 'Composer(Wolfgang Amadeus Mozart, 1756, true)'
+----
+
+
+===== Scripting support
+
+====== @GROOVY.TRANSFORM.TIMEDINTERRUPT
+
+Annotating a class with @TimedInterrupt sets a maximum time the script or instances
+of the class are allowed to exist. If the maximum time is exceeded then a Timeout-
+Exception is thrown. This annotation is designed to guard against runaway processes,
+infinite loops, or a maliciously long-running user script.
+
+[source,groovy]
+.Using @TimedInterrupt to guard against slow scripts
+----
+import groovy.transform.TimedInterrupt
+import java.util.concurrent.TimeoutException
+import static java.util.concurrent.TimeUnit.MILLISECONDS
+@TimedInterrupt(value = 480L, unit = MILLISECONDS)
+class BlastOff1 {
+    def log = []
+    def countdown(n) {
+        sleep 100
+        log << n
+        if (n == 0) log << 'ignition'
+        else countdown(n - 1)
+    }
+}
+def b = new BlastOff1()
+Thread.start {
+    try {
+        b.countdown(10)
+    } catch (TimeoutException ignore) {
+        b.log << 'aborted'
+    }
+}.join()
+assert b.log.join(' ') == '10 9 8 7 6 aborted'
+----
+
+
+====== @GROOVY.TRANSFORM.THREADINTERRUPT
+For timely responsiveness, long-running user scripts should periodically check the
+Thread.currentThread().isInterrupted() status and throw an Interrupted-
+Exception when an interrupt is detected. But in practice, scripts are almost never
+written this way. An easy way to properly respect the interrupted flag is to use the
+@ThreadInterrupt annotation.
+
+[source,groovy]
+.Using @ThreadInterrupt to detect interruptions
+----
+import groovy.transform.ThreadInterrupt
+@ThreadInterrupt
+class BlastOff2 {
+    def log = []
+    def countdown(n) {
+        Thread.sleep 100
+        log << n
+        if (n == 0) log << 'ignition'
+        else countdown(n - 1)
+    }
+}
+def b = new BlastOff2()
+def t1 = Thread.start {
+    try {
+        b.countdown(10)
+    } catch (InterruptedException ignore) {
+        b.log << 'aborted'
+    }
+}
+sleep 590
+t1.interrupt()
+t1.join()
+assert b.log.join(' ') == '10 9 8 7 6 aborted'
+----
+
+====== @GROOVY.TRANSFORM.CONDITIONALINTERRUPT
+
+This annotation allows you to specify your own custom interrupt logic to be woven into a class.
+Like the others, the interrupt check occurs at the start of every method, the start of
+every closure, and each loop iteration.
+
+[source,groovy]
+.Using @ConditionalInterrupt to set an automatic error threshold
+----
+import groovy.transform.ConditionalInterrupt
+
+@ConditionalInterrupt({ count <= 5 })
+class BlastOff3 {
+    def log = []
+    def count = 10
+
+    def countdown() {
+        while (count != 0) {
+            log << count
+            count--
+        }
+        log << 'ignition'
+    }
+}
+
+def b = new BlastOff3()
+try {
+    b.countdown()
+} catch (InterruptedException ignore) {
+    b.log << 'aborted'
+}
+assert b.log.join(' ') == '10 9 8 7 6 aborted'
+----
+
+====== @GROOVY.TRANSFORM.FIELD
+
+[source,groovy]
+.Using @Field for class-level instance variables in a script
+----
+import groovy.transform.Field
+@Field List awe = [1, 2, 3]
+def awesum() { awe.sum() }
+assert awesum() == 6
+----
+
+The equivalent generated code would look like this:
+
+[source,java]
+----
+class ScriptYYYYY extends Script {
+    List awe = [1, 2, 3]
+    public static void main(String[] args) {
+        new ScriptYYYYY().run()
+    }
+    public awesum() {
+        awe.sum()
+    }
+    public run() {
+        assert awesum() == 6
+    }
+}
+----
+
+====== @GROOVY.TRANSFORM.BASESCRIPT
+
+Annotating a script with @BaseScript lets you customize a script’s parent class. Sup-
+pose you wanted all your scripts to save all printed lines to a log.
+
+[source,groovy]
+.Using @BaseScript to customize a script’s parent class
+----
+@BaseScript(LoggingScript)
+import groovy.transform.BaseScript
+abstract class LoggingScript extends Script {
+    def log = []
+    void println(args) {
+        log << args
+        System.out.println args
+    }
+}
+println 'hello'
+println 3 * 5
+assert log.join(' ') == 'hello 15'
+----
+
+==== Exploring AST
+
+An AST is a representation of your program in tree form. The tree has nodes that
+can have leaves and branches, and there’s a single root node. Many compilers, not just
+Groovy, create an AST as a step toward a compiled program. In general and simplified
+terms, running a Groovy script is a multistep process:
+
+image::compiler-phases.png[]
+
+
+===== AST by example: creating ASTs
+
+===== Create By Hand
+
+[source,groovy]
+.Creating AST objects by hand
+----
+import org.codehaus.groovy.ast.ClassHelper
+import org.codehaus.groovy.ast.expr.*
+import org.codehaus.groovy.ast.stmt.ReturnStatement
+def ast = new ReturnStatement(
+        new ConstructorCallExpression(
+                ClassHelper.make(Date),
+                ArgumentListExpression.EMPTY_ARGUMENTS
+        )
+)
+assert ast instanceof ReturnStatement
+----
+
+[source,groovy]
+.Using the GeneralUtils helper class
+----
+import org.codehaus.groovy.ast.stmt.ReturnStatement
+import static org.codehaus.groovy.ast.ClassHelper.make
+import static org.codehaus.groovy.ast.tools.GeneralUtils.*
+def ast = returnS(ctorX(make(Date)))
+assert ast instanceof ReturnStatement
+----
+
+===== AstBuilder.buildFromSpec
+
+[source,groovy]
+.Creating AST objects using buildFromSpec
+----
+import org.codehaus.groovy.ast.builder.AstBuilder
+import org.codehaus.groovy.ast.stmt.ReturnStatement
+def ast = new AstBuilder().buildFromSpec {
+    returnStatement {
+        constructorCall(Date) {
+            argumentList {}
+        }
+    }
+}
+assert ast[0] instanceof ReturnStatement
+----
+
+
+===== AstBuilder.buildFromString
+
+[source,groovy]
+.Creating AST objects using buildFromString
+----
+import org.codehaus.groovy.ast.builder.AstBuilder
+import org.codehaus.groovy.ast.stmt.BlockStatement
+import org.codehaus.groovy.ast.stmt.ReturnStatement
+
+def ast = new AstBuilder().buildFromString('new Date()')
+assert ast[0] instanceof BlockStatement
+assert ast[0].statements[0] instanceof ReturnStatement
+----
+NOTE: The only knowledge required is that a script is a BlockStatement and that Block-
+      Statement has a ReturnStatement in its statement list.
+
+
+[source,groovy]
+.Trying to mix dynamic code with buildFromString
+----
+import org.codehaus.groovy.ast.builder.AstBuilder
+import org.codehaus.groovy.control.CompilePhase
+import org.codehaus.groovy.ast.*
+def approxPI = 3.14G
+def ast = new AstBuilder().buildFromString(
+        CompilePhase.CLASS_GENERATION,
+        false,
+        'static double getTwoPI() { def pi = ' + approxPI + '; pi * 2 }'
+)
+assert ast[1] instanceof ClassNode
+def method = ast[1].methods.find { it.name == 'getTwoPI' }
+assert method instanceof MethodNode
+----
+
+===== AstBuilder.buildFromCode
+
+[source,groovy]
+.Creating AST objects using buildFromCode
+----
+import org.codehaus.groovy.ast.builder.AstBuilder
+import org.codehaus.groovy.ast.stmt.ReturnStatement
+def ast = new AstBuilder().buildFromCode {
+    new Date()
+}
+assert ast[0].statements[0] instanceof ReturnStatement
+----
+
+
+====== AST by example: local transformations
+
+A local transformation relies on annotations to rewrite Groovy code.
+
+[source,groovy]
+----
+class Greeter {
+    @Main
+    def greet() {
+        println "Hello from the greet() method!"
+    }
+}
+----
+
+[source,groovy]
+----
+class Greeter {
+    def greet() {
+        println "Hello from the greet() method!"
+    }
+    public static void main(String[] args) {
+        new Greeter().greet()
+    }
+}
+----
+
+[source,groovy]
+.Main.groovy
+----
+@Retention(RetentionPolicy.SOURCE)
+@Target([ElementType.METHOD])
+@GroovyASTTransformationClass(classes = [MainTransformation])
+@interface Main {}
+----
+
+[source,groovy]
+.MainTransformation.groovy
+----
+@GroovyASTTransformation(phase = CompilePhase.INSTRUCTION_SELECTION)
+class MainTransformation implements ASTTransformation {
+    void visit(ASTNode[] astNodes, SourceUnit sourceUnit) {
+        // perform any checks
+        // construct appropriate main method
+        // add main method to class
+    }
+}
+----
+
+IMPORTANT: You only need to use the ASTNode[] parameter.
+Element 0 contains the annotation that triggered the transformation and element 1
+contains the ASTNode that was annotated.
+
+
+[source,groovy]
+.Implementing the ASTTransformation for the @Main annotation
+----
+import static groovyjarjarasm.asm.Opcodes.*
+import static org.codehaus.groovy.ast.ClassHelper.VOID_TYPE
+import static org.codehaus.groovy.ast.tools.GeneralUtils.*
+
+@GroovyASTTransformation(phase = CompilePhase.INSTRUCTION_SELECTION)
+class MainTransformation implements ASTTransformation {
+    private NO_EXCEPTIONS = ClassNode.EMPTY_ARRAY
+    private STRING_ARRAY = ClassHelper.STRING_TYPE.makeArray()
+
+    void visit(ASTNode[] astNodes, SourceUnit sourceUnit) {
+        if (astNodes?.size() != 2) return
+        if (!(astNodes[0] instanceof AnnotationNode)) return
+        if (astNodes[0].classNode.name != Main.name) return
+        if (!(astNodes[1] instanceof MethodNode)) return
+        def targetMethod = astNodes[1]
+        def targetClass = targetMethod.declaringClass
+        def targetInstance = ctorX(targetClass)
+        def callTarget = callX(targetInstance, targetMethod.name)
+        def mainBody = block(stmt(callTarget))
+        def visibility = ACC_STATIC | ACC_PUBLIC
+        def parameters = params(param(STRING_ARRAY, 'args'))
+        targetClass.addMethod('main', visibility,
+                VOID_TYPE, parameters, NO_EXCEPTIONS, mainBody)
+    }
+}
+
+new GroovyShell(getClass().classLoader).evaluate '''
+class Greeter {
+    @Main
+    def greet() {
+        println "Hello from the greet() method!"
+    }
+}
+'''
+----
+
+===== AST by example: global transformations
+
+Global transformations are similar to local transformations except that no annotation
+is required to wire-in a visitor. Instead of having the end user specify when your trans-
+formation is applied, global transformations are simply applied to every single source
+unit in the compilation.
+
+[source,groovy]
+----
+println 'script compiled at: ' + compiledTime
+class MyClass { }
+println 'script class compiled at: ' + MyClass.compiledTime
+----
+
+[source,groovy]
+.CompiledAtASTTransformation
+----
+
+----
+
+
+
