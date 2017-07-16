@@ -5,7 +5,6 @@ import org.junit.Test
 class Strings {
     @Test
     public void "Many ways to quote a 'String'"() {
-        "".isNotBlank()
         // ------------ START EDITING HERE ----------------------
         String s = 'Leerdammerkaas, carpaccio, wat een combinatio'
         // ------------ STOP EDITING HERE  ----------------------

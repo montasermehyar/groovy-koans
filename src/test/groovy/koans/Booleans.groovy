@@ -43,12 +43,12 @@ class Booleans {
         int one = 1
         int negative = -1
         int zero = 0
-        // ------------ START EDITING HERE ----------------------
-
-        // ------------ STOP EDITING HERE  ----------------------
         assert one, "positive integers are truthy"
         assert negative, "negative integers are truthy"
+        // ------------ START EDITING HERE ----------------------
         assert zero, "0 Is not truthy"
+        // ------------ STOP EDITING HERE  ----------------------
+
 
     }
 

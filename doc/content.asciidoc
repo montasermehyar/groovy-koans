@@ -4,7 +4,6 @@ Author Mhmd Alhjaj
 :doctype: book
 :toc:
 
-= The Groovy Language : PART 1
 include::i_introduction/intro_i.asciidoc[]
 include::ii_basics/basics_ii.asciidoc[]
 include::iii_simple_datatype/simple_groovy_datatypes_iii.asciidoc[]

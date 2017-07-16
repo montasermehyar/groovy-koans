@@ -21,7 +21,7 @@ class Numbers {
         def store = ''
 
         // ------------ START EDITING HERE ----------------------
-        def i = 1
+        def i
         // ------------ STOP EDITING HERE  ----------------------
 
         i.upto(5) { number ->
