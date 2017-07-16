@@ -31,7 +31,6 @@ class Closures {
 
     @Test
     public void "Closure without arguments"() {
-
         // ------------ START EDITING HERE ----------------------
         def noArg = { 'Closure without arguments.' }
         // ------------ STOP EDITING HERE  ----------------------

@@ -8,8 +8,24 @@ class Coercion {
     @Test
     void "coercion between different classes"() {
         BeneficiaryProfile beneficiary = [10, "Ministry Of Finance", ["KWNBOK00000000123456"]]
-        def consumer = beneficiary as ConsumerProfile
+        // ------------ START EDITING HERE ----------------------
+        def consumer
+        // ------------ STOP EDITING HERE  ----------------------
         assert consumer.class.is(ConsumerProfile)
+        assert consumer.name == beneficiary.name
+    }
+
+    @Test
+    void "coercion in constructor"() {
+        // ------------ START EDITING HERE ----------------------
+        def beneficiary = [10, "Ministry Of Finance", ["KWNBOK00000000123456"]]
+        // ------------ STOP EDITING HERE  ----------------------
+        assert beneficiary.class.is(BeneficiaryProfile)
+    }
+
+    @Test
+    void "coercion in when converting a closure into interface"() {
+
     }
 }
 
